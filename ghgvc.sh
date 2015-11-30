@@ -84,12 +84,51 @@ R-core-devel
 sqlite-devel
 '
 
+ARCH_PACKAGES='
+apache
+autoconf
+automake
+bc
+binutils
+bison
+curl
+findutils
+gcc-fortran
+gcc
+git
+hdf5-openmpi
+lapack
+libtool
+libxml2
+libxslt
+mariadb
+mariadb-clients
+libmariadbclient
+ncurses
+netcdf
+nodejs
+openmpi
+openssl
+pcre
+php
+php-apache
+r
+sqlite
+subversion
+texinfo
+texlive-bin
+texlive-fontsextra
+texlive-core
+zlib
+'
 
 function determine_distro {
   if [[ -f /etc/redhat-release ]]; then
     DISTRO=el
   elif grep Ubuntu /etc/issue >/dev/null 2>&1; then
     DISTRO=ubuntu
+  elif grep Arch /etc/issue >/dev/null 2>&1; then
+    DISTRO=arch
   else
     echo "Unsupported Linux distribution!"
     exit 1
@@ -120,6 +159,11 @@ function install_packages_yum {
   sudo yum clean all
   sudo yum -y update
   sudo yum -y install $YUM_PACKAGES
+}
+
+function install_packages_arch {
+  sudo pacman -Sy
+  sudo pacman -S $ARCH_PACKAGES --needed
 }
 
 function prepare_install_dir {
@@ -500,6 +544,9 @@ function install_packages {
     ubuntu)
       install_packages_apt
     ;;
+    arch)
+      install_packages_arch
+    ;;
     *)
       echo "Unsupported Linux distribution!"
       exit 1
@@ -517,6 +564,9 @@ function disable_apache {
       sudo service apache2 stop >/dev/null 2>&1 || true
       sudo update-rc.d -f apache2 remove >/dev/null 2>&1 || true
     ;;
+    arch)
+      sudo systemctl stop httpd
+    ;;
     *)
       echo "Unsupported Linux distribution!"
       exit 1
@@ -532,6 +582,9 @@ function enable_nginx {
     ;;
     ubuntu)
       sudo /usr/sbin/update-rc.d -f nginx defaults
+    ;;
+    arch)
+      sudo systemctl start nginx
     ;;
     *)
       echo "Unsupported Linux distribution!"
