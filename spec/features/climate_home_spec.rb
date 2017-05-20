@@ -47,7 +47,6 @@ RSpec.describe "Climate Home" do
 
       it "should fail to remove location" do
         expect(page).to have_content("Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.")
->>>>>>> climate-SE
       end
     end
   end
