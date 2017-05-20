@@ -1,0 +1,2 @@
+ERROR: "bundle gem" was called with arguments ["capybara-screenshot,", ":group", "="]
+Usage: "bundle gem GEM [OPTIONS]"
