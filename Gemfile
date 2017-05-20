@@ -33,7 +33,7 @@ end
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
-end
+  gem 'capybara-screenshot'
 
 group :test, :development do
   gem 'rspec-rails'
