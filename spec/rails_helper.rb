@@ -9,6 +9,7 @@ require 'rspec/rails'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rails'
+<<<<<<< HEAD
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
@@ -16,6 +17,8 @@ end
 
 Capybara.javascript_driver = :chrome
 Capybara.default_driver = :chrome
+=======
+>>>>>>> f3995b6... spec modifications
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
