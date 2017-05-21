@@ -8,7 +8,7 @@ RSpec.describe "Climate Home" do
       expect(page).to have_content("Ecosystem Climate Regulation Services Calculator")
     end
 
-    context "Running Calaculator With No Selected Ecosystem" do
+    context "Running Calculator With No Selected Ecosystem" do
       before { find("#run_ghgvc_calculator").click }
 
       it "should fail to calculate" do
@@ -17,7 +17,7 @@ RSpec.describe "Climate Home" do
       end
     end
   end
-  describe "Running Calaculator", js: true do
+  describe "Running Calculator", js: true do
     context "Running Calaculator With No Selected Ecosystem" do
       before do
         visit root_path
