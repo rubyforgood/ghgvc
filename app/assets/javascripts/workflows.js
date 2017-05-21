@@ -329,7 +329,7 @@ function collapse_all_ecosystem_wells() {
 };
 
 function get_selected_ecosystems_name_and_type( location ) {
-  var ecosystems_at_this_location = location.find('label.checkbox');
+  var ecosystems_at_this_location = location.find('label');
   var selected_ecosystem_names = [];
 
   // Iterate through the checkboxes associated with the ecosystem names
@@ -422,35 +422,25 @@ $(document).ready(function() {
       var lat = result[1];
       var lng = result[2];
 
-      var biome_group_string = biome_group.attr('id');
+      const biome_group_id_splits = biome_group.attr('id').split('-');
+      const siteNumber = biome_group_id_splits[biome_group_id_splits.length - 1];
+      var biome_group_string = "site_" + siteNumber + "_data";
+
       ghgvcR_input[biome_group_string] = {}
       ghgvcR_input[biome_group_string]['lat'] = lat
       ghgvcR_input[biome_group_string]['lng'] = lng
+      ghgvcR_input[biome_group_string]["ecosystems"] = {}
 
-      $.each( ecosystem_to_include, function(i,v){
-        // and each ecosystem
-        console.log( v[1].replace(/ /g, "_") )
+      $.each( ecosystem_to_include, function(i,v) {
         var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
         console.log( input_ecosystem_json );
-        var biome_group_string = biome_group.attr('id');
-        var biome_type_string = v[0] + "_eco";
         var biome_name_string = v[1].replace(/ /g,"_")
 
-        // if keys dont exist ... add them
-        if (!( biome_group_string in ghgvcR_input ))  ghgvcR_input[biome_group_string] = {};
-        if (!( biome_type_string in ghgvcR_input[biome_group_string] ))  ghgvcR_input[biome_group_string][biome_type_string] = {};
-
-        ghgvcR_input[biome_group_string][biome_type_string][biome_name_string] = input_ecosystem_json;
-
-        // Current R code requires sensible value, even though we dont use sensible
-        //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
-
-
-        // TODO: Fix the issue with missing data in the public/data/* files
-        if ( typeof ( ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] ) == "undefined" ) {
-            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
-            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = ["0"];
-        }
+        ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string] = input_ecosystem_json;
+        // Remove unnecessary settings that are in global
+        delete ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string]["T_A"];
+        delete ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string]["T_E"];
+        delete ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string]["r"];
       });
     });
 
@@ -480,8 +470,9 @@ $(document).ready(function() {
 
     // Hide all the input portions
     toggle_input_state_for_charts();
-
-    $.post("/create_config_input", { ecosystems: ghgvcR_input, options: optionsData }, function(data) {
+    
+    const data = { sites: ghgvcR_input, options: optionsData };
+    $.post("/create_config_input", data, function(data) {
         console.log("###### output from ghgvcR code: " + JSON.stringify(data));
 
         $.ajax({

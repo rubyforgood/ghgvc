@@ -27,11 +27,7 @@ class WorkflowsController < ApplicationController
   end
 
   def create_config_input
-    Rails.logger.info("ECOSYSTEMS: #{params[:ecosystems]}")
-    @ecosystems = params[:ecosystems]
-    @biophys_workaround = []
-
-    @rscript_output = ClimateRegulatingValues.calculate @ecosystems
+    @rscript_output = ClimateRegulatingValues.calculate params
 
     ## TODO: HANDLE "NA"
     # in a few instances we get back values of "NA" .. replace those with zero
@@ -44,7 +40,7 @@ class WorkflowsController < ApplicationController
         end
       end
     end
-
+    binding.pry
     respond_to do |format|
       format.json { render json: @rscript_output }
     end
