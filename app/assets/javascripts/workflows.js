@@ -481,7 +481,11 @@ $(document).ready(function() {
     // Hide all the input portions
     toggle_input_state_for_charts();
 
+<<<<<<< HEAD
     $.post("/create_config_input", { ecosystems: ghgvcR_input, options: optionsData }, function(data) {
+=======
+    $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
+>>>>>>> e26862f6c3ccb4538d8e4ef70accdbf110b38f86
         console.log("###### output from ghgvcR code: " + JSON.stringify(data));
 
         $.ajax({
@@ -640,6 +644,7 @@ $(document).ready(function() {
 
     initialize_google_map();
   });
+<<<<<<< HEAD
 });
 
 function getMaximum(value) {
@@ -693,4 +698,6 @@ $( document ).ready(function() {
       slider.noUiSlider.set(this.value);
     });
   }
+=======
+>>>>>>> e26862f6c3ccb4538d8e4ef70accdbf110b38f86
 });
