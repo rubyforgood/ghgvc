@@ -13,7 +13,7 @@ RSpec.describe "Climate Mapping" do
       before do
         visit root_path
         page.accept_alert 'Please check one or more ecosystems' do
-          find(:xpath, "//div[@id='run_ghgvc_calculator']").click
+          find("#run_ghgvc_calculator").click
         end
       end
 
@@ -35,11 +35,11 @@ RSpec.describe "Climate Mapping" do
     end
   end
 
-  describe "Removing Location" do
+  describe "Removing Location", js: true do
     context "when no location selected" do
       before do
         visit root_path
-        find(:xpath, "//div[@id='biome_instance-1']/div[2]").click
+        find(:xpath, ".//*[@id='biome_instance-1']/div[2]").click
       end
 
       it "should fail to remove location" do

@@ -21,7 +21,7 @@ RSpec.describe "Climate Home" do
     context "Running Calaculator With No Selected Ecosystem" do
       before do
         visit root_path
-        find('#run.ghgvc.calculator').click
+        find('#run_ghgvc_calculator').click
       end
 
       it "should fail to calculate" do
