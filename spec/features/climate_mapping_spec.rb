@@ -47,5 +47,17 @@ RSpec.describe "Climate Mapping" do
       end
     end
   end
+
+  describe "Selecting Map Locations" do
+    context "locating a location" do
+      before do
+        visit root_path
+      end
+
+      it "should have map" do
+        expect(page).to have_css('.gm-style>div>div>div')
+      end
+    end
+  end
 end
 end
