@@ -11,6 +11,9 @@ class ClimateRegulatingValues
 
       connection.assign("data", hash_data.to_json)
 
+      puts hash_data
+      puts hash_data.to_json
+
       connection.eval("ghgvcr::calc_ghgv(data)").to_ruby
     end
   end
